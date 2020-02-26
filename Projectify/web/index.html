@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Projectify</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            div.table{
+                display : table;                                                
+                text-align: center;
+                background-color: rgba(245,245,245,0.15);
+            }
+            div.halfWidth{
+                width : 50%;
+                margin: auto;
+            }
+            div.fullWidth{
+                width : 100%;
+                margin: 0px;
+            }
+            div.row{
+                display:table-row;
+                margin: 5px;
+                text-align: center;                
+            }           
+            div.cell{
+                display:table-cell;                
+                padding: 3px;
+                width:auto;            
+            }
+            div.border{
+                border: 0.5px solid gray;                
+            }     
+            div.hoverable{
+                transition-duration: 0.5s;
+            }
+            div.hoverable:hover{
+                background-color: rgba(230,230,230,1);
+                font-size: 105%;
+                border: 1px dashed black;
+            }
+        </style>
+        <script>
+            var checkEmail=1;
+            
+            function ol(){
+                var divobj=document.getElementById("registerForm");
+                divobj.style.visibility = "hidden" ;
+            }
+            
+            function openEmail(){                
+                var divobj=document.getElementById("registerForm"); 
+                var inpEmail=document.getElementById("userEmail");
+                var inpName=document.getElementById("userName");
+                var inpPass=document.getElementById("userPass");
+                
+                if(checkEmail)
+                {
+                    divobj.style.visibility = "visible" ; 
+                    checkEmail=0;                  
+                }
+                else
+                {
+                    if(inpEmail.value !== "")
+                    {
+                        if(inpName.value !== "" && inpPass.value !== "")
+                        {
+                            
+                        }
+                        else
+                            alert("Please enter username and password");
+                    }
+                    else
+                        alert("Please enter the email");
+                }
+            }
+            
+        </script>
+    </head>
+    <body onload="ol()">
+        <h1 align="center">Login/Register</h1>
+        
+        <div class="table halfWidth">
+            <div class="row">
+                <div class="cell">Username </div>
+                <div class="cell"><input type="text" id="userName"></div>                
+            </div>
+            <div class="row">
+                <div class="cell">Password</div>
+                <div class="cell"><input type="password" id="userPass"></div>
+            </div>    
+            <div class="row" id="registerForm">
+                <div class='cell'>Email</div>
+                <div class='cell'><input type='text' id="userEmail"></div>
+            </div>
+        </div>
+        <div class="table halfWidth">
+            <div class="row">
+                <div class="cell"><button onclick="login()">Login</button></div>
+            </div>
+            <div class="row">
+                <div class="cell"><button onclick="openEmail()">Register</button></div>
+            </div>            
+        </div>
+    </body>
+</html>
+
+    
