@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Create new project</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            div.table{
+                display : table;                                                
+                text-align: center;
+                background-color: rgba(245,245,245,0.15);
+            }
+            div.halfWidth{
+                width : 50%;
+                margin: auto;
+            }
+            div.fullWidth{
+                width : 100%;
+                margin: 0px;
+            }
+            div.row{
+                display:table-row;
+                margin: 5px;
+                text-align: center;                
+            }           
+            div.cell{
+                display:table-cell;                
+                padding: 3px;
+                width:auto;            
+            }
+            div.border{
+                border: 0.5px solid gray;                
+            }     
+            div.hoverable{
+                transition-duration: 0.5s;
+            }
+            div.hoverable:hover{
+                background-color: rgba(230,230,230,1);
+                font-size: 105%;
+                border: 1px dashed black;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="table halfWidth">
+            <div class="row">
+                <div class="cell">
+                    <div class="table fullWidth">
+                        <div class="row">
+                            <div class="cell"><label for="img">Select image:</label></div>
+                            <div class="cell"><input type="file" id="img" name="img" accept="image/*"></div>
+                        </div>
+                    </div>                    
+                </div>                
+            </div>
+            <div class="row">
+                <div class="cell"><input type="text" placeholder="Project Name"></div>
+            </div>
+            <div class="row">
+                <div class="cell"><input type="text" placeholder="Company/Organisation"></div>
+            </div>
+            <div class="row">
+                <div class="cell"><input type="text" placeholder="Project Description"></div>
+            </div>
+            <div class="row">
+                <div class="cell">Estimated Date of Completion &nbsp; <input type="date"></div>
+            </div>
+            <div class="row">
+                <div class="cell"><button>Done</button></div>
+            </div>
+        </div>
+    </body>
+</html>
