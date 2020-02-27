@@ -14,6 +14,7 @@ and open the template in the editor.
             .tab {
                 overflow: hidden;
                 border: 1px solid #ccc;
+                border-radius: 5px;
                 background-color: #f1f1f1;
                 display: table;
                 width: 100%;
@@ -44,9 +45,10 @@ and open the template in the editor.
             /* Style the tab content */
             .tabcontent {
                 display: none;
-                padding: 6px 12px;
+
                 border: 1px solid #ccc;
                 border-top: none;
+                border-radius: 10px;
             }
             .tabcontent {
                 animation: fadeEffect 1s; /* Fading effect takes 1 second */
@@ -62,26 +64,24 @@ and open the template in the editor.
                 text-align: center;
                 background-color: rgba(245,245,245,0.15);
             }
-            div.halfWidth{
+            .halfWidth{
                 width : 50%;
                 margin: auto;
             }
-            div.fullWidth{
+            .fullWidth{
                 width : 100%;
-                margin: 0px;
+
             }
             div.row{
                 display:table-row;
-                margin: 5px;
+
                 text-align: center;                
             }           
             div.cell{
-                display:table-cell;                
-                padding: 3px;
-                width:50%;            
+                display:table-cell;                                                       
             }
             div.border{
-                border: 0.5px solid gray;                
+                border: 0.5px solid gray;                  
             }     
             div.hoverable{
                 transition-duration: 0.5s;
@@ -91,13 +91,85 @@ and open the template in the editor.
                 font-size: 105%;
                 border: 1px dashed black;
             }
-        </style>     
+            .setw30{
+                width:30%;
+            }
+            .setw70{
+                width:70%;
+            }
+            .rightBorder{
+                border-right: 3px solid black;
+            }
+            .w33{
+                width:33%;
+            }
+            .padLeft{
+                padding-left: 10px;
+            }
+            .padRight{
+                padding-right: 10px;
+            }
+            .body{
+                background-image: linear-gradient(to top,rgb(0, 255, 255),rgb(0, 20, 255));
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-attachment: fixed;
+            }
+
+        </style>  
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+        <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-app.js"></script>
+
+        <!-- TODO: Add SDKs for Firebase products that you want to use
+             https://firebase.google.com/docs/web/setup#available-libraries -->
+        <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-analytics.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase.js"></script>
+
         <script>
-            document.getElementById("defaultOpen").click();
+            // Your web app's Firebase configuration
+            var firebaseConfig = {
+                apiKey: "AIzaSyBVm89W0kpR55vX7Y1CWLzX-WIbe9uAXKs",
+                authDomain: "challenge-73c1b.firebaseapp.com",
+                databaseURL: "https://challenge-73c1b.firebaseio.com",
+                projectId: "challenge-73c1b",
+                storageBucket: "challenge-73c1b.appspot.com",
+                messagingSenderId: "535056442425",
+                appId: "1:535056442425:web:3f3c5d228e0a421bee19e8",
+                measurementId: "G-YRN3YFJ8TE"
+            };
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+            firebase.analytics();
+            var database = firebase.database();
+        </script>
+
+        <script>
+            firebase.auth().onAuthStateChanged(function (user) {
+                if (user) {
+
+                } else {
+                    window.location.href = "index.html";
+                }
+            });
+            function logout() {
+//                alert("trst");
+                firebase.auth().signOut().then(function () {
+                    console.log("logged out");
+                }).catch(function (error) {
+                    alert("error");
+                });
+            }
+            document.getElementById("defaultOpen1").click();
             function openCity(evt, cityName) {
                 // Declare all variables
                 var i, tabcontent, tablinks;
-
+                loadDB();
                 // Get all elements with class="tabcontent" and hide them
                 tabcontent = document.getElementsByClassName("tabcontent");
                 for (i = 0; i < tabcontent.length; i++) {
@@ -115,32 +187,209 @@ and open the template in the editor.
                 evt.currentTarget.className += " active";
             }
 
+            document.getElementById("defaultOpen2").click();
+            function openProTab(evt, cityName) {
+                // Declare all variables
+                var i, tabcontent, tablinks;
+                loadDB();
+                // Get all elements with class="tabcontent" and hide them
+                tabcontent = document.getElementsByClassName("tabcontentinner");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+
+                // Get all elements with class="tablinks" and remove the class "active"
+                tablinks = document.getElementsByClassName("tablinksinner");
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].className = tablinks[i].className.replace(" active", "");
+                }
+
+                // Show the current tab, and add an "active" class to the button that opened the tab
+                document.getElementById(cityName).style.display = "block";
+                evt.currentTarget.className += " active";
+            }
+            function openD(PID) {
+                var dout = "<div class='table'>";
+                return firebase.database().ref('/Projects/' + PID).once('value').then(function (snapshot) {
+                    snapshot.forEach(function (childSnapshot) {
+                        var childKey = childSnapshot.key;
+                        var childData = childSnapshot.val();
+
+                        if (childKey !== "members" && childKey !== "memberRoles" && childKey !== "resourceUris")
+                            dout = dout + "<div class='row border'><div class='cell'>" + childKey + " : " + childData + "</div></div>";
+                    });
+                    dout = dout + "</div>";
+                    document.getElementById("desctext").innerHTML = dout;
+                });
+            }
+            function openC(PID) {
+                var cout = "<div class='table'>";
+
+
+                return firebase.database().ref().once('value').then(function (snapshot) {
+                    var temp=snapshot.child('/Chats/' + PID);
+                    var n = temp.numChildren();
+                    var i = 0;
+                    for (i = 0; i < n; i++)
+                    {
+                        child = snapshot.child('/Chats/' + PID+"/"+i);
+                        var mid = "";
+                        var msg = "";
+                        var time = "";
+                        var name = "def";
+                        child.forEach(function (child) {
+                            var childKey = child.key;
+                            var childData = child.val();
+//                                cout = cout + "<div class='row border'><div class='cell'>" + childKey + " : " + childData + "</div></div>";
+//                                cout = cout + " " + childKey + " " + childData + "      ";
+                            if (childKey === "message")
+                                msg = childData;
+                            if (childKey === "senderId")
+                                mid = childData;
+                            if (childKey === "time")
+                                time = childData;
+                        });
+                                                
+                        temp=snapshot.child('/Users/'+mid+'/userName');
+                        name=temp.val();                        
+                        
+                        
+                        cout = cout +
+                                "<div class=\"row\">" +
+                                "<div class=\"cell\">" +
+                                "<div class=\"table border\">" +
+                                "<div class=\"row\">" +
+                                "<div class=\"cell\">" +
+                                "<div class=\"table\">" +
+                                "<div class=\"row\">" +
+                                "<div class=\"cell padLeft\" align=\"left\">" + name + "</div>" +
+                                "<div class=\"cell padRight\" align=\"right\">" + time + "</div>" +
+                                "</div>" +
+                                "</div>" +
+                                "</div>" +
+                                "</div>" +
+                                "<div class=\"row\">" +
+                                "<div class=\"cell padLeft\" align=\"left\">" + msg + "</div>" +
+                                "</div>" +
+                                "</div>" +
+                                "</div>" +
+                                "</div>";
+
+
+                    }
+
+
+
+
+                    cout = cout + "</div>";
+                    document.getElementById("chattext").innerHTML = cout;
+                });
+
+            }
+
+            function openP(PID) {
+//                alert("dshv");
+                openD(PID);
+                openC(PID);
+
+
+            }
+
+            function loadDB() {
+                var userId = firebase.auth().currentUser.uid;
+
+                var out = "<div class='table'>";
+//                alert(userId);
+                return firebase.database().ref('/ProjectsUnderUsers/' + userId).once('value').then(function (snapshot) {
+                    snapshot.forEach(function (childSnapshot) {
+                        var childKey = childSnapshot.key;
+                        var childData = childSnapshot.val();
+
+                        var r = childKey.split('_');
+                        out = out + "<div class='row border'><div class='cell'><Button class=\"btn fullWidth\" onclick=\"openP(\'" + childKey + "\')\">" + r[1] + " from " + r[0] + "</Button></div></div>";
+                    });
+                    out = out + "</div>";
+                    document.getElementById("projects").innerHTML = out;
+//                    alert(out);
+
+                    // ...
+                });
+
+            }
+            function init() {
+                document.getElementById("defaultOpen1").click();
+                document.getElementById("defaultOpen2").click();
+                tabcontent = document.getElementsByClassName("tabcontentinner");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+            }
         </script>
     </head>
-    <body>
+    <body onload="init()">
         <div class="tab">           
             <div class="row">
                 <div class="cell">
-                    <button class="tablinks" onclick="openCity(event, 'Dashboard')" id="defaultOpen">DashBoard</button>
+                    <button class="tablinks" onclick="openCity(event, 'Dashboard')" id="defaultOpen1">Projects</button>
                 </div>
                 <div class="cell">
                     <button class="tablinks" onclick="openCity(event, 'Profile')">Profile</button> 
-                </div>
-            </div>                        
+                </div>               
+            </div>            
         </div>
 
         <!-- Tab content -->
-        <div id="Dashboard" class="tabcontent">
-            <h3>Notification</h3>
-            <p>Notifications will come here.</p>
-            <hr>
-            <h3>Projects</h3>
-            <p>Project list will come here</p>
+        <div id="Dashboard" class="tabcontent" >            
+            <div class="table">
+                <div class="row">
+                    <div class="cell setw30 rightBorder"><p id="projects">Add a new project</p></div>
+                    <div class="cell setw70">
+                        <div class="tab">           
+                            <div class="row">
+                                <div class="table">
+                                    <div class="row">
+                                        <div class="cell w33">
+                                            <button class="tablinksinner" onclick="openProTab(event, 'Chat')" id="defaultOpen2">Chat</button>
+                                        </div>
+                                        <div class="cell w33">
+                                            <button class="tablinksinner" onclick="openProTab(event, 'Resources')">Resources</button> 
+                                        </div>
+                                        <div class="cell w33">
+                                            <button class="tablinksinner" onclick="openProTab(event, 'Desc')">Project Description</button> 
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>  
+                            <div class="row">
+                                <div id="Chat" class="tabcontentinner">
+                                    <p id="chattext">Chat will be shown here</p>
+                                </div>
+
+                                <div id="Resources" class="tabcontentinner">
+                                    this is Resources
+                                </div>
+
+                                <div id="Desc" class="tabcontentinner">
+                                    <p id="desctext">Project Description will be shown here</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         <div id="Profile" class="tabcontent">
-            <p>Profile page here.</p>            
+            <div class="table">
+                <div class="row">
+                    <div class="cell"><button class="btn btn-primary btn-rounded" onclick="logout()">Sign Out</button>    </div>
+                </div>
+            </div>
         </div>
+
+
 
     </body>
 </html>

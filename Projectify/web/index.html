@@ -1,113 +1,167 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
+<html lang="en">
     <head>
-        <title>Projectify</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+        <meta name="generator" content="Jekyll v3.8.6">
+        <title>projectify index</title>
+
+        <link rel="canonical" href="https://getbootstrap.com/docs/4.4/examples/sign-in/">
+
+        <!-- Bootstrap core CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" crossorigin="anonymous">
+
+        <!-- Favicons -->
+        <link rel="apple-touch-icon" href="/docs/4.4/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+        <link rel="icon" href="/docs/4.4/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+        <link rel="icon" href="/docs/4.4/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+        <link rel="manifest" href="/docs/4.4/assets/img/favicons/manifest.json">
+        <link rel="mask-icon" href="/docs/4.4/assets/img/favicons/safari-pinned-tab.svg" >
+        <link rel="icon" href="/docs/4.4/assets/img/favicons/favicon.ico">
+        <meta name="msapplication-config" content="/docs/4.4/assets/img/favicons/browserconfig.xml">
+        <meta name="theme-color" content="#563d7c">
+
+
         <style>
-            div.table{
-                display : table;                                                
-                text-align: center;
-                background-color: rgba(245,245,245,0.15);
+            body{
+                background-image: linear-gradient(to top,rgb(0, 255, 255),rgb(0, 20, 255));
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-attachment: fixed;
+
             }
-            div.halfWidth{
-                width : 50%;
-                margin: auto;
+            .bd-placeholder-img {
+                font-size: 1.125rem;
+                text-anchor: middle;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
             }
-            div.fullWidth{
-                width : 100%;
-                margin: 0px;
+
+            @media (min-width: 768px) {
+                .bd-placeholder-img-lg {
+                    font-size: 3.5rem;
+                }
             }
-            div.row{
-                display:table-row;
-                margin: 5px;
-                text-align: center;                
-            }           
-            div.cell{
-                display:table-cell;                
-                padding: 3px;
-                width:auto;            
+            .half{
+                width:400px;
+                text-align:center;
+                margin:auto;
+
+
+
+                padding-top:30px;
             }
-            div.border{
-                border: 0.5px solid gray;                
-            }     
-            div.hoverable{
-                transition-duration: 0.5s;
+            .setMargin{
+                margin-bottom:6px;
             }
-            div.hoverable:hover{
-                background-color: rgba(230,230,230,1);
-                font-size: 105%;
-                border: 1px dashed black;
+
+
+
+            .hoverable{
+                transition:all 0.5s;
             }
+            .hoverable:hover{
+                font-size:110%;
+            }
+
         </style>
+
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-app.js"></script>
+
+        <!-- TODO: Add SDKs for Firebase products that you want to use
+             https://firebase.google.com/docs/web/setup#available-libraries -->
+        <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-analytics.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase.js"></script>
+
         <script>
-            var checkEmail=1;
-            
-            function ol(){
-                var divobj=document.getElementById("registerForm");
-                divobj.style.visibility = "hidden" ;
-            }
-            
-            function openEmail(){                
-                var divobj=document.getElementById("registerForm"); 
-                var inpEmail=document.getElementById("userEmail");
-                var inpName=document.getElementById("userName");
-                var inpPass=document.getElementById("userPass");
-                
-                if(checkEmail)
-                {
-                    divobj.style.visibility = "visible" ; 
-                    checkEmail=0;                  
-                }
-                else
-                {
-                    if(inpEmail.value !== "")
-                    {
-                        if(inpName.value !== "" && inpPass.value !== "")
-                        {
-                            
-                        }
-                        else
-                            alert("Please enter username and password");
-                    }
-                    else
-                        alert("Please enter the email");
-                }
-            }
-            
+            // Your web app's Firebase configuration
+            var firebaseConfig = {
+                apiKey: "AIzaSyBVm89W0kpR55vX7Y1CWLzX-WIbe9uAXKs",
+                authDomain: "challenge-73c1b.firebaseapp.com",
+                databaseURL: "https://challenge-73c1b.firebaseio.com",
+                projectId: "challenge-73c1b",
+                storageBucket: "challenge-73c1b.appspot.com",
+                messagingSenderId: "535056442425",
+                appId: "1:535056442425:web:3f3c5d228e0a421bee19e8",
+                measurementId: "G-YRN3YFJ8TE"
+            };
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+            firebase.analytics();
         </script>
+
+
+
+
+        <script>
+
+            function goToSignUp() {
+                window.location.href = "signup.html";
+            }
+
+            firebase.auth().onAuthStateChanged(function (user) {
+                if (user) {
+                    window.location.href = "homepage.html";
+                }
+            });
+            function login() {
+
+                var email = document.getElementById("inputEmail").value;
+                var pass = document.getElementById("inputPassword").value;
+                console.log("ahsbd");
+//                alert(email+pass);
+                firebase.auth().signInWithEmailAndPassword(email, pass).catch(function (error) {
+                    // Handle Errors here.
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    window.alert(errorMessage);
+                });
+//                alert("passed");
+            }
+
+
+
+        </script>               
+
+        <!-- Custom styles for this template -->
+        <link href="signin.css" rel="stylesheet">
     </head>
-    <body onload="ol()">
-        <h1 align="center">Login/Register</h1>
-        
-        <div class="table halfWidth">
-            <div class="row">
-                <div class="cell">Username </div>
-                <div class="cell"><input type="text" id="userName"></div>                
+    <body class="text-center" >
+        <div class="half">
+
+            <img class="mb-4" src="data\appIcon.png" alt="" width="172" height="172">
+            <h1 class="h3 mb-1 font-weight-normal">PROJECTIFY</h1>
+            <h6 class="mb-2">NEW INNOVATIONS AND IDEAS</h6>
+            <h1 class="h3 mb-1 font-weight-normal">Sign in</h1>
+            <label for="inputEmail" class="sr-only">Email address</label>
+            <input type="email" id="inputEmail" class="form-control setMargin hoverable" placeholder="Email address" required>
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input type="password" id="inputPassword" class="form-control setMargin hoverable" placeholder="Password" required>
+
+            <div class="checkbox mb-3">
+                <h6>Now, be relaxed for managing projects!</h6>
             </div>
-            <div class="row">
-                <div class="cell">Password</div>
-                <div class="cell"><input type="password" id="userPass"></div>
-            </div>    
-            <div class="row" id="registerForm">
-                <div class='cell'>Email</div>
-                <div class='cell'><input type='text' id="userEmail"></div>
-            </div>
+            <button class="btn btn-lg btn-primary btn-block" onclick="login()" id="loginb">Sign in</button>
+            <button class="btn btn-lg btn-primary btn-block" onclick="goToSignUp()">Sign up</button>
+            <p class="mt-5 mb-3 text-muted"></p>
+
         </div>
-        <div class="table halfWidth">
-            <div class="row">
-                <div class="cell"><button onclick="login()">Login</button></div>
-            </div>
-            <div class="row">
-                <div class="cell"><button onclick="openEmail()">Register</button></div>
-            </div>            
-        </div>
+        <script>
+            var input = document.getElementById("inputPassword");
+            input.addEventListener("keyup", function (event) {
+                if (event.keyCode === 13) {
+                    event.preventDefault();
+                    document.getElementById("loginb").click();
+                }
+            });
+        </script>
     </body>
 </html>
-
-    
